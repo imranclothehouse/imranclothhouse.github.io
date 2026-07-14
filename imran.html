@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imran Cloth House | Premium Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; margin: 0; background: #fff; color: #111; }
+        .header { text-align: center; padding: 40px 20px; }
+        h1 { font-family: 'Playfair Display', serif; letter-spacing: 3px; }
+        
+        .cart-float { position: fixed; top: 20px; right: 20px; background: #111; color: #fff; padding: 12px 20px; border-radius: 50px; cursor: pointer; z-index: 1000; font-size: 0.9em; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 50px; padding: 0 20px; }
+        .card { border: 1px solid #eee; padding: 15px; text-align: center; }
+        .card img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 10px; }
+        .btn { background: #b58645; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.75em; letter-spacing: 1px; margin-top: 10px; }
+        .btn:hover { background: #000; }
+
+        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="cart-float" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
+
+<div class="header">
+    <h1>IMRAN CLOTHE HOUSE</h1>
+    <p>Premium Unstitched Collection</p>
+</div>
+
+<div class="product-grid">
+    <script>
+        const products = [
+            { name: "Mustard Meadow", price: 1850, img: "2.png" },
+            { name: "Purple Blossom", price: 1850, img: "4.png" },
+            { name: "Pink Mosaic", price: 1850, img: "6.png" },
+            { name: "Indigo Leafy", price: 1850, img: "8.png" },
+            { name: "Peach Coral", price: 1850, img: "10.png" },
+            { name: "Earth Chunri", price: 1850, img: "12.png" },
+            { name: "Slate Leafy", price: 1850, img: "14.png" },
+            { name: "Terracotta Bloom", price: 1850, img: "16.png" }
+        ];
+
+        products.forEach(p => {
+            document.write(`
+                <div class="card">
+                    <img src="${p.img}" alt="${p.name}">
+                    <h3>${p.name}</h3>
+                    <p>Rs. ${p.price}</p>
+                    <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
+                </div>
+            `);
+        });
+    </script>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="cartModal">
+    <div class="modal-content">
+        <h2>Your Cart</h2>
+        <div id="cartList"></div>
+        <p><strong>Total (inc. DC): Rs. <span id="totalPrice">0</span></strong></p>
+        
+        <a id="whatsappOrderBtn" href="#" target="_blank" class="btn" style="background: #25D366; text-decoration: none; display: block; text-align: center;">Confirm Order via WhatsApp</a>
+        
+        <button class="btn" style="background: #555;" onclick="toggleCart()">Close</button>
+    </div>
+</div>
+
+<script>
+    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+    updateUI();
+
+    function addToCart(name, price) {
+        cart.push({ name, price });
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        updateUI();
+    }
+
+    function updateUI() {
+        document.getElementById('cartCount').innerText = cart.length;
+    }
+
+    function toggleCart() {
+        const modal = document.getElementById('cartModal');
+        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+        if(modal.style.display === 'flex') renderCart();
+    }
+
+    function renderCart() {
+        let list = document.getElementById('cartList');
+        list.innerHTML = '';
+        let total = 250; 
+        let msg = "Salam, Main ye items order karna chahti hoon:\n";
+        
+        cart.forEach((item, index) => {
+            total += item.price;
+            msg += `• ${item.name} (Rs. ${item.price})\n`;
+            list.innerHTML += `
+                <div class="cart-item">
+                    ${item.name} - Rs. ${item.price} 
+                    <button onclick="remove(${index})" style="border:none; color:red; cursor:pointer;">x</button>
+                </div>`;
+        });
+        
+        msg += `\n*Total Bill (inc. DC):* Rs. ${total}`;
+        document.getElementById('totalPrice').innerText = total;
+        
+        // WhatsApp Link Update
+        const whatsappLink = `https://wa.me/923226283099?text=${encodeURIComponent(msg)}`;
+        document.getElementById('whatsappOrderBtn').href = whatsappLink;
+    }
+
+    function remove(index) {
+        cart.splice(index, 1);
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        updateUI();
+        renderCart();
+    }
+</script>
+
+</body>
+</html>
