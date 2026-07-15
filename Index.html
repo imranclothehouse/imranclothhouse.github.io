@@ -3,125 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Imran Cloth House | Premium Collection</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <title>IMRAN CLOTHE HOUSE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Montserrat', sans-serif; margin: 0; background: #fff; color: #111; }
-        .header { text-align: center; padding: 40px 20px; }
-        h1 { font-family: 'Playfair Display', serif; letter-spacing: 3px; }
-        
-        .cart-float { position: fixed; top: 20px; right: 20px; background: #111; color: #fff; padding: 12px 20px; border-radius: 50px; cursor: pointer; z-index: 1000; font-size: 0.9em; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto 50px; padding: 0 20px; }
-        .card { border: 1px solid #eee; padding: 15px; text-align: center; }
-        .card img { width: 100%; height: 300px; object-fit: cover; margin-bottom: 10px; }
-        .btn { background: #b58645; color: white; border: none; padding: 12px; cursor: pointer; width: 100%; text-transform: uppercase; font-size: 0.75em; letter-spacing: 1px; margin-top: 10px; }
-        .btn:hover { background: #000; }
-
+        body { font-family: 'Montserrat', sans-serif; margin: 0; background: #fff; }
+        .top-bar { position: fixed; top: 0; width: 100%; background: #d32f2f; color: white; text-align: center; padding: 10px 0; font-size: 0.85em; z-index: 2000; }
+        .header { text-align: center; padding: 80px 20px 20px; }
+        .logo { width: 150px; height: auto; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: auto; }
+        .img-container { position: relative; height: 300px; overflow: hidden; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; position: absolute; transition: 0.5s; }
+        .back-img { opacity: 0; }
+        .img-container:hover .front-img { opacity: 0; }
+        .img-container:hover .back-img { opacity: 1; }
+        .btn { background: #d32f2f; color: white; border: none; padding: 12px; width: 100%; cursor: pointer; margin-top: 10px; }
+        .cart-float { position: fixed; bottom: 20px; right: 20px; background: #111; color: #fff; padding: 15px 25px; border-radius: 50px; cursor: pointer; z-index: 1000; }
+        .section { padding: 40px 20px; text-align: center; background: #f9f9f9; }
+        .social-links a { margin: 0 10px; text-decoration: none; color: #333; font-weight: bold; }
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center; }
-        .modal-content { background: white; padding: 30px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .modal-content { background: white; padding: 20px; width: 90%; max-width: 400px; max-height: 80vh; overflow-y: auto; }
+        input { width: 100%; margin-bottom: 10px; padding: 10px; box-sizing: border-box; }
+        .cart-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .remove-btn { background: none; border: none; color: #d32f2f; font-weight: bold; font-size: 1.2em; cursor: pointer; padding: 0 5px; }
     </style>
 </head>
 <body>
 
+<div class="top-bar">Imran Cloth House, Arshad Market Shop No P117 | Free Delivery on orders above Rs. 5000</div>
 <div class="cart-float" onclick="toggleCart()">🛒 Cart (<span id="cartCount">0</span>)</div>
 
 <div class="header">
+    <img src="logo.png" class="logo" alt="Logo">
     <h1>IMRAN CLOTHE HOUSE</h1>
-    <p>Premium Unstitched Collection</p>
 </div>
 
 <div class="product-grid">
     <script>
         const products = [
-            { name: "Mustard Meadow", price: 1850, img: "2.png" },
-            { name: "Purple Blossom", price: 1850, img: "4.png" },
-            { name: "Pink Mosaic", price: 1850, img: "6.png" },
-            { name: "Indigo Leafy", price: 1850, img: "8.png" },
-            { name: "Peach Coral", price: 1850, img: "10.png" },
-            { name: "Earth Chunri", price: 1850, img: "12.png" },
-            { name: "Slate Leafy", price: 1850, img: "14.png" },
-            { name: "Terracotta Bloom", price: 1850, img: "16.png" }
+            { name: "Mustard Meadow", f: "2.png", b: "3.png", price: 1850 },
+            { name: "Purple Blossom", f: "4.png", b: "5.png", price: 1850 },
+            { name: "Pink Mosaic", f: "6.png", b: "7.png", price: 1850 },
+            { name: "Indigo Leafy", f: "8.png", b: "9.png", price: 1850 },
+            { name: "Peach Coral", f: "10.png", b: "11.png", price: 1850 },
+            { name: "Earth Chunri", f: "12.png", b: "13.png", price: 1850 },
+            { name: "Slate Leafy", f: "14.png", b: "15.png", price: 1850 },
+            { name: "Terracotta Bloom", f: "16.png", b: "17.png", price: 1850 }
         ];
-
         products.forEach(p => {
-            document.write(`
-                <div class="card">
-                    <img src="${p.img}" alt="${p.name}">
-                    <h3>${p.name}</h3>
-                    <p>Rs. ${p.price}</p>
-                    <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button>
-                </div>
-            `);
+            document.write(`<div><div class="img-container"><img class="front-img" src="${p.f}"><img class="back-img" src="${p.b}"></div>
+                <h3>${p.name}</h3><p>Decorative laces shown are not included.</p><p><strong>Rs. ${p.price}</strong></p>
+                <button class="btn" onclick="addToCart('${p.name}', ${p.price})">Add to Cart</button></div>`);
         });
     </script>
 </div>
 
-<!-- Modal -->
+<div class="section">
+    <h3>Subscribe to Newsletter</h3>
+    <input type="email" id="newsEmail" placeholder="Enter your email for updates" style="max-width: 300px;">
+    <button class="btn" style="max-width: 150px;" onclick="alert('Subscribed!')">Subscribe</button>
+</div>
+
+<div class="section">
+    <div class="social-links" style="position: relative; z-index: 9999;">
+        <a href="https://www.instagram.com/sohamking_6" target="_blank" style="position: relative; z-index: 10000; padding: 10px; display: inline-block;">Instagram</a> | 
+        <a href="https://www.facebook.com/profile.php?id=100055474080018" target="_blank" style="position: relative; z-index: 10000; padding: 10px; display: inline-block;">Facebook</a> |
+        <a href="https://www.tiktok.com/@sparklee2343?_r=1&_t=ZS-983tvgkVcfd" target="_blank" style="position: relative; z-index: 10000; padding: 10px; display: inline-block;">TikTok</a>
+    </div>
+    <p>© 2026 Imran Cloth House</p>
+</div>
+
 <div class="modal" id="cartModal">
     <div class="modal-content">
-        <h2>Your Cart</h2>
+        <h2>Checkout</h2>
         <div id="cartList"></div>
-        <p><strong>Total (inc. DC): Rs. <span id="totalPrice">0</span></strong></p>
-        
-        <a id="whatsappOrderBtn" href="#" target="_blank" class="btn" style="background: #25D366; text-decoration: none; display: block; text-align: center;">Confirm Order via WhatsApp</a>
-        
+        <p><strong>Total: Rs. <span id="totalPrice">0</span></strong></p>
+        <input type="text" id="custName" placeholder="Full Name" required>
+        <input type="text" id="custPhone" placeholder="Phone Number" required>
+        <input type="email" id="custEmail" placeholder="Email Address" required>
+        <input type="text" id="custAddress" placeholder="Address" required>
+        <button class="btn" style="background: #25D366;" onclick="sendWhatsApp()">Confirm Order via WhatsApp</button>
         <button class="btn" style="background: #555;" onclick="toggleCart()">Close</button>
     </div>
 </div>
 
 <script>
-    let cart = JSON.parse(localStorage.getItem('myCart')) || [];
-    updateUI();
-
-    function addToCart(name, price) {
-        cart.push({ name, price });
-        localStorage.setItem('myCart', JSON.stringify(cart));
-        updateUI();
-    }
-
-    function updateUI() {
-        document.getElementById('cartCount').innerText = cart.length;
-    }
-
-    function toggleCart() {
-        const modal = document.getElementById('cartModal');
-        modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-        if(modal.style.display === 'flex') renderCart();
-    }
-
+    let cart = [];
+    function addToCart(name, price) { cart.push({ name, price }); updateCartCount(); }
+    function updateCartCount() { document.getElementById('cartCount').innerText = cart.length; }
+    function toggleCart() { const modal = document.getElementById('cartModal'); modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex'; renderCart(); }
     function renderCart() {
-        let list = document.getElementById('cartList');
-        list.innerHTML = '';
-        let total = 250; 
-        let msg = "Salam, Main ye items order karna chahti hoon:\n";
-        
-        cart.forEach((item, index) => {
-            total += item.price;
-            msg += `• ${item.name} (Rs. ${item.price})\n`;
-            list.innerHTML += `
-                <div class="cart-item">
-                    ${item.name} - Rs. ${item.price} 
-                    <button onclick="remove(${index})" style="border:none; color:red; cursor:pointer;">x</button>
-                </div>`;
-        });
-        
-        msg += `\n*Total Bill (inc. DC):* Rs. ${total}`;
+        let list = document.getElementById('cartList'), total = 0; list.innerHTML = '';
+        cart.forEach((item, index) => { total += item.price; list.innerHTML += `<div class="cart-item"><span>${item.name} - Rs. ${item.price}</span><button class="remove-btn" onclick="removeFromCart(${index})">×</button></div>`; });
         document.getElementById('totalPrice').innerText = total;
-        
-        // WhatsApp Link Update
-        const whatsappLink = `https://wa.me/923226283099?text=${encodeURIComponent(msg)}`;
-        document.getElementById('whatsappOrderBtn').href = whatsappLink;
     }
-
-    function remove(index) {
-        cart.splice(index, 1);
-        localStorage.setItem('myCart', JSON.stringify(cart));
-        updateUI();
-        renderCart();
+    function removeFromCart(index) { cart.splice(index, 1); updateCartCount(); renderCart(); }
+    function sendWhatsApp() {
+        let name = document.getElementById('custName').value, phone = document.getElementById('custPhone').value, email = document.getElementById('custEmail').value, addr = document.getElementById('custAddress').value;
+        if(!name || !phone || !email || !addr) { alert("Please fill all details!"); return; }
+        let msg = `Order from Imran Cloth House!%0AAddress: Arshad Market Shop No P117%0A---%0AName: ${name}%0APhone: ${phone}%0AEmail: ${email}%0AAddress: ${addr}%0AItems: `;
+        cart.forEach(item => { msg += item.name + ", "; });
+        msg += `%0ATotal: Rs. ${document.getElementById('totalPrice').innerText}`;
+        window.open(`https://wa.me/923226283099?text=${msg}`, '_blank');
     }
 </script>
-
 </body>
 </html>
